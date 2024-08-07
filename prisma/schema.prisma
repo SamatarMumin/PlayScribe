@@ -11,25 +11,22 @@ datasource db {
 }
 
 
-model Example {
-  id              Int       @default(autoincrement()) @id
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-}
 
 model userModel {
-  id              Int       @default(autoincrement()) @id
+  id              String      @id @default(cuid())
   username        String  
   updatedAt       DateTime  @updatedAt
 }
 
 
 model gamesModel {
-  id              Int       @default(autoincrement()) @id
+  id              String      @id @default(cuid())
+  authorID        String
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
-  Title           String 
-  Status          Boolean
+  title           String 
+  status          Boolean
   reviewDesc      String?
-  starRating      Int
+  starRating      Int     
+  @@index([authorID])
 }

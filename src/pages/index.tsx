@@ -1,10 +1,10 @@
 import Head from "next/head";
 import Link from "next/link";
 import { api } from "~/utils/api";
-import { SignIn, SignInButton, useUser } from "@clerk/nextjs";
+import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 
 export default function Home() {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  const {data} = api.games.getAll.useQuery();
   const user = useUser();
   return (
     <>
@@ -15,8 +15,11 @@ export default function Home() {
       </Head>
       <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-r from-purple-500 to-pink-500 " >
       <div >
-        {!!user && <SignInButton></SignInButton> }
+        {!user.isSignedIn && <SignInButton></SignInButton> }
+        {!!user.isSignedIn && <SignOutButton></SignOutButton> }
       </div>
+      <div><div>
+        {data?.map((games) => (<div key={games.id}>{games.title}</div>))}</div></div>
       </main>
     </>
   );
