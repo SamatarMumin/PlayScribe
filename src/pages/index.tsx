@@ -1,11 +1,17 @@
 import Head from "next/head";
-import Link from "next/link";
 import { api } from "~/utils/api";
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
+import GamesPage from "./games/create";
+import { useRouter } from 'next/router'
 
 export default function Home() {
   const { data } = api.games.getAll.useQuery();
   const user = useUser();
+  const router = useRouter();
+  const navigateToCreate = () =>{
+
+    router.push("games/create")
+  }
   return (
     <>
       <Head>
@@ -23,14 +29,16 @@ export default function Home() {
               This is sample page cause idk how to design shit
             </p>
             <div className="flex justify-center mt-4">
+              
               {!user.isSignedIn && <SignInButton></SignInButton>}
-              {!!user.isSignedIn && <SignOutButton></SignOutButton>}
+              {!!user.isSignedIn && <button onClick={navigateToCreate}> Go to Create</button>}
             </div>
           </div>
         </div>
         <div>
        
         </div>
+       
       </main>
     </>
   );
