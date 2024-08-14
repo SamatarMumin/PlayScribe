@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  @apply flex min-h-screen flex-col bg-gradient-to-r from-purple-500 to-pink-500 
+}
