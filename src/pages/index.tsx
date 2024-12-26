@@ -3,14 +3,15 @@ import { api } from "~/utils/api";
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 import GamesPage from "./games/create";
 import { useRouter } from "next/router";
+import NavBar from "~/component/navbar";
+
 
 export default function Home() {
   const { data } = api.games.getAll.useQuery();
   const user = useUser();
   const router = useRouter();
-  const navigateToCreate = () => {
-    router.push("games/create");
-  };
+  
+
   
   return (
     <>
@@ -20,18 +21,21 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="">
-        <div className="h-screen flex items-center justify-center">
-          <div className="mx-4 my-20 w-full max-w-md rounded-lg bg-white p-8 shadow-lg">
-            <h1 className="mb-4 text-center text-2xl font-bold text-red-950">
-              Landing screen i guess
+        <div className="h-screen flex items-center justify-center ">
+          <div className="mx-4 my-20 w-full max-w-md rounded-lg bg-[#41434A]">
+            <h1 className="text-center font-bold text-white">
+              Join PlayScripe
             </h1>
-            <p className="text-center text-gray-700">
+            <h1 className="mb-4 text-center text-white text-xs font-style: italic">
+              Your Life in Games
+            </h1>
+            <p className="text-center text-white">
               This is sample page cause idk how to design shit
             </p>
             <div className="mt-4 flex justify-center">
               {!user.isSignedIn && <SignInButton></SignInButton>}
               {!!user.isSignedIn && (
-                <button onClick={navigateToCreate}> Go to Create</button>
+                <button> Go to Creatwafwafwafwae</button>
               )}
             </div>
           </div>
