@@ -1,14 +1,20 @@
 import Head from "next/head";
 import { api } from "~/utils/api";
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
-import GamesPage from "./games/create";
 import { useRouter } from "next/router";
-import NavBar from "~/component/navbar";
+import { useEffect } from "react";
 
 export default function Home() {
   const { data } = api.games.getAll.useQuery();
   const user = useUser();
   const router = useRouter();
+
+
+  useEffect(() => {
+    if (user.isSignedIn) {
+      router.push('/home');
+    }
+  }, [user.isSignedIn, router]);
 
   return (
     <>
@@ -25,7 +31,7 @@ export default function Home() {
               Join PlayScripe
             </h1>
             <h1 className="font-style: text-gray-300-mb-8 mb-4 text-center text-xs italic">
-              Your Life in Games
+              Letterbox but for games
             </h1>
             <form className="space-y-6">
               <div className="">
@@ -46,7 +52,6 @@ export default function Home() {
             </form>
             <div className="flex justify-center">
               {!user.isSignedIn && <SignInButton></SignInButton>}
-              {!!user.isSignedIn && <button> Go to Creatwafwafwafwae</button>}
             </div>
           </div>
           <div className="md:w-1/2 px-8 py-12 flex items-center bg-LastOfUs2 bg-cover bg-center rounded-r-lg">
