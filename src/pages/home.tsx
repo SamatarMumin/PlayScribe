@@ -7,7 +7,7 @@ import NavBar from "~/component/navbar";
 
 export default function homePage() {
   return (
-    <div className="">
+    <div>
       <NavBar></NavBar>
     </div>
   );
