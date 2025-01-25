@@ -2,21 +2,10 @@ import Head from "next/head";
 import Link from "next/link";
 import { api } from "~/utils/api";
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
-import Trpc from "../api/trpc/[trpc]";
 import { useState } from "react";
+import NavBar from "~/component/navbar";
 
-const createGamePost = api.games.createGame.useMutation();
-
-// States for form fields
-const [status, setStatus] = useState(false);
-const [id, setId] = useState("");
-const [authorID, setAuthorID] = useState("");
-const [createdAt, setCreatedAt] = useState(new Date());
-const [updatedAt, setUpdatedAt] = useState(new Date());
-const [title, setTitle] = useState("");
-const [starRating, setStarRating] = useState(0);
-const [message, setMessage] = useState("");
-
+// User Avatar Component
 const UserAvatar = () => {
   const { user } = useUser();
   if (!user) return null;
@@ -27,54 +16,88 @@ const UserAvatar = () => {
         src={user.profileImageUrl}
         alt="Profile Image"
         className="h-16 w-16 rounded-full object-left-top"
-      ></img>
+      />
     </div>
   );
 };
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+// Main Component
+export default function GamesPage() {
+  const { data: games } = api.games.getAll.useQuery();
+  const createGamePost = api.games.createGame.useMutation();
 
-  try {
-    await createGamePost.mutateAsync({
-      status,
-      id,
-      authorID,
-      createdAt,
-      updatedAt,
-      title,
-      starRating,
-    });
+  // Form states
+  const [status, setStatus] = useState(false);
+  const [id, setId] = useState("");
+  const [authorID, setAuthorID] = useState("");
+  const [title, setTitle] = useState("");
+  const [starRating, setStarRating] = useState(0);
 
-    setStatus(false);
-    setId("");
-    setAuthorID("");
-    setCreatedAt(new Date());
-    setUpdatedAt(new Date());
-    setTitle("");
-    setStarRating(0);
-  } catch (e) {
-    console.error(e);
-  }
-};
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-export default function gamesPage() {
-  const { data } = api.games.getAll.useQuery();
+    try {
+      await createGamePost.mutateAsync({
+        status,
+        id,
+        authorID,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        title,
+        starRating,
+      });
+
+      // Reset form fields
+      setStatus(false);
+      setId("");
+      setAuthorID("");
+      setTitle("");
+      setStarRating(0);
+    } catch (error) {
+      console.error("Error creating game:", error);
+    }
+  };
+
   return (
-    <div className="mt-8 space-y-6 bg-black sm:mx-auto sm:max-w-md ">
-      <UserAvatar></UserAvatar>
-      <form className="mb-0 border-spacing-1 space-y-6 sm:w-7">
-        <input type="text" name="Game Title"></input>
-        <input type="text" name="review"></input>
-        <input type="number" name="stars" max={5}></input>
-        <button type="submit" className="text-red-50">
-          {" "}
+    <div>
+      <NavBar></NavBar>
+    <div className="mt-8 space-y-6 bg-black sm:mx-auto sm:max-w-md">
+  
+      <UserAvatar />
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div>
+          <label className="block text-white">Game Title</label>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="w-full p-2"
+          />
+        </div>
+        <div>
+          <label className="block text-white">Review</label>
+          <input
+            type="text"
+            value={id}
+            onChange={(e) => setId(e.target.value)}
+            className="w-full p-2"
+          />
+        </div>
+        <div>
+          <label className="block text-white">Stars</label>
+          <input
+            type="number"
+            value={starRating}
+            onChange={(e) => setStarRating(Number(e.target.value))}
+            max={5}
+            className="w-full p-2"
+          />
+        </div>
+        <button type="submit" className="px-4 py-2 bg-red-500 text-white">
           Submit
         </button>
       </form>
     </div>
+    </div>
   );
 }
-
-/*    how to show all games {data?.map((game) => <div key={game.authorID}>{game.title}</div>)}
- */
