@@ -1,3 +1,5 @@
+import { SignOutButton } from "@clerk/nextjs";
+
 export default function NavBar() {
   return (
     <nav className="border-gray-200 bg-black dark:bg-gray-900">
@@ -7,7 +9,7 @@ export default function NavBar() {
             <li>
               <a
                 href="#"
-                className="block rounded bg-blue-700 px-3 py-2 text-white dark:text-white md:bg-transparent md:p-0 md:text-blue-700 md:dark:text-blue-500"
+                className="block rounded px-3 py-2 text-white hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
                 aria-current="page"
               >
                 Home
@@ -23,7 +25,7 @@ export default function NavBar() {
             </li>
             <li>
               <a
-                href="#"
+                href="/games/log"
                 className="block rounded px-3 py-2 text-white hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
               >
                 View Gaming Log
@@ -38,12 +40,13 @@ export default function NavBar() {
               </a>
             </li>
             <li>
-              <a
-                href="#"
-                className="block rounded px-3 py-2 text-white hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
-              >
-                Sign Out
-              </a>
+              <SignOutButton>
+                <button 
+                  className="block rounded px-3 py-2 text-white hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
+                >
+                  Sign Out
+                </button>
+              </SignOutButton>
             </li>
           </ul>
         </div>

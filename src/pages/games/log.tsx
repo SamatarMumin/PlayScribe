@@ -1,0 +1,41 @@
+import Head from "next/head";
+import Link from "next/link";
+import { api } from "~/utils/api";
+import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
+import NavBar from "~/component/navbar";
+
+
+export default function HomePage() {
+  const { data } = api.games.getAll.useQuery();
+
+  const showGames = () => {
+    return data?.map((gameData) => (
+      <div
+        key={gameData.game.id}
+        className="max-w-sm mx-auto bg-white p-4 rounded-lg shadow-lg mb-6"
+      >
+        <div className="text-xl font-semibold mb-2">{gameData.game.title}</div>
+        <div className="text-gray-700 mb-4">{gameData.game.reviewDesc}</div>
+        <div className="text-sm text-gray-500">By: {gameData.author?.username}</div>
+        
+        {/* Additional info from gameSchema */}
+        <div className="text-sm text-gray-500">ID: {gameData.game.id}</div>
+        <div className="text-sm text-gray-500">Author ID: {gameData.game.authorID}</div>
+        <div className="text-sm text-gray-500">Created: {new Date(gameData.game.createdAt).toLocaleDateString()}</div>
+        <div className="text-sm text-gray-500">Updated: {new Date(gameData.game.updatedAt).toLocaleDateString()}</div>
+        <div className="text-sm text-gray-500">Status: {gameData.game.status ? "Active" : "Inactive"}</div>
+        <div className="text-sm text-gray-500">Rating: {gameData.game.starRating} / 5</div>
+        <div className="py-6">
+        <button type="button" className="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Red</button>
+        </div>
+    </div>
+    ));
+  };
+
+  return (
+    <div className="h-screen bg-gray-900">
+      <NavBar />
+      <div className="flex flex-wrap justify-center p-4">{showGames()}</div>
+    </div>
+  );
+}

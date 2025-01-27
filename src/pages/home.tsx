@@ -7,7 +7,7 @@ import NavBar from "~/component/navbar";
 
 export default function homePage() {
   return (
-    <div>
+    <div className="h-screen bg-gray-900">
       <NavBar></NavBar>
     </div>
   );

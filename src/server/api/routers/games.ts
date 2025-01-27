@@ -19,6 +19,7 @@ const gameSchema = z.object({
   title: z.string(),
   status: z.boolean(),
   starRating: z.number(),
+  reviewDesc: z.string(),
 });
 
 export const gamesRouter = createTRPCRouter({
