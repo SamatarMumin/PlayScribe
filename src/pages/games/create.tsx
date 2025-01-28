@@ -1,7 +1,6 @@
-import Head from "next/head";
-import Link from "next/link";
+
 import { api } from "~/utils/api";
-import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { useState } from "react";
 import NavBar from "~/component/navbar";
 
@@ -23,13 +22,13 @@ const UserAvatar = () => {
 
 // Main Component
 export default function GamesPage() {
-  const { data: games } = api.games.getAll.useQuery();
   const createGamePost = api.games.createGame.useMutation();
 
   // Form states
   const [status, setStatus] = useState(false);
   const [id, setId] = useState("");
   const [authorID, setAuthorID] = useState("");
+  const [reviewDesc, setreviewDesc] = useState("");
   const [title, setTitle] = useState("");
   const [starRating, setStarRating] = useState(0);
 
@@ -44,15 +43,17 @@ export default function GamesPage() {
         createdAt: new Date(),
         updatedAt: new Date(),
         title,
+        reviewDesc,
         starRating,
       });
 
       // Reset form fields
       setStatus(false);
-      setId("");
+      setId((Math.random() + 1).toString(36));
       setAuthorID("");
       setTitle("");
       setStarRating(0);
+      setreviewDesc("")
     } catch (error) {
       console.error("Error creating game:", error);
     }
@@ -78,8 +79,8 @@ export default function GamesPage() {
           <label className="block text-white">Review</label>
           <input
             type="text"
-            value={id}
-            onChange={(e) => setId(e.target.value)}
+            value={reviewDesc}
+            onChange={(e) => setreviewDesc(e.target.value)}
             className="w-full p-2"
           />
         </div>
