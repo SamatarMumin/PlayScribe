@@ -1,4 +1,3 @@
-
 import { api } from "~/utils/api";
 import { useUser } from "@clerk/nextjs";
 import { useState } from "react";
@@ -10,11 +9,11 @@ const UserAvatar = () => {
   if (!user) return null;
 
   return (
-    <div className="flex">
+    <div className="flex justify-center">
       <img
         src={user.profileImageUrl}
         alt="Profile Image"
-        className="h-16 w-16 rounded-full object-left-top"
+        className="h-16 w-16 rounded-full object-cover shadow-md"
       />
     </div>
   );
@@ -28,7 +27,7 @@ export default function GamesPage() {
   const [status, setStatus] = useState(false);
   const [id, setId] = useState("");
   const [authorID, setAuthorID] = useState("");
-  const [reviewDesc, setreviewDesc] = useState("");
+  const [reviewDesc, setReviewDesc] = useState("");
   const [title, setTitle] = useState("");
   const [starRating, setStarRating] = useState(0);
 
@@ -53,52 +52,56 @@ export default function GamesPage() {
       setAuthorID("");
       setTitle("");
       setStarRating(0);
-      setreviewDesc("")
+      setReviewDesc("");
     } catch (error) {
       console.error("Error creating game:", error);
     }
   };
 
   return (
-    <div>
-      <NavBar></NavBar>
-    <div className="mt-8 space-y-6 bg-black sm:mx-auto sm:max-w-md">
-  
-      <UserAvatar />
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <label className="block text-white">Game Title</label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="w-full p-2"
-          />
+    <div className="min-h-screen bg-gray-900 text-white">
+      <NavBar />
+      <div className="mt-10 flex flex-col items-center">
+        <div className="w-full max-w-md bg-gray-800 rounded-lg shadow-lg p-6 space-y-6">
+          <UserAvatar />
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium">Game Title</label>
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="w-full p-2 rounded-md bg-gray-700 text-white focus:outline-none"
+              />
+            </div>
+            <div>
+              <label className="block text-sm">Review</label>
+              <textarea
+                value={reviewDesc}
+                onChange={(e) => setReviewDesc(e.target.value)}
+                className="w-full rounded-md bg-gray-700 text-white focus:outline-none"
+                rows={4}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium">Stars</label>
+              <input
+                type="number"
+                value={starRating}
+                onChange={(e) => setStarRating(Number(e.target.value))}
+                max={5}
+                className="w-full p-2 rounded-md bg-gray-700 text-white focus:outline-none"
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full py-2 bg-red-500 hover:bg-red-600 rounded-md text-white font-semibold"
+            >
+              Submit
+            </button>
+          </form>
         </div>
-        <div>
-          <label className="block text-white">Review</label>
-          <input
-            type="text"
-            value={reviewDesc}
-            onChange={(e) => setreviewDesc(e.target.value)}
-            className="w-full p-2"
-          />
-        </div>
-        <div>
-          <label className="block text-white">Stars</label>
-          <input
-            type="number"
-            value={starRating}
-            onChange={(e) => setStarRating(Number(e.target.value))}
-            max={5}
-            className="w-full p-2"
-          />
-        </div>
-        <button type="submit" className="px-4 py-2 bg-red-500 text-white">
-          Submit
-        </button>
-      </form>
-    </div>
+      </div>
     </div>
   );
 }

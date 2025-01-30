@@ -1,4 +1,12 @@
-import { SignOutButton } from "@clerk/nextjs";
+import { SignedOut, SignOutButton, useClerk } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
+import router from "next/router";
+
+
+const handleLogout = async () => {
+  await router.push('/')
+}
+
 
 export default function NavBar() {
   return (
@@ -8,7 +16,7 @@ export default function NavBar() {
           <ul className="mt-4 flex flex-col border p-4 font-medium rtl:space-x-reverse dark:border-gray-700 dark:bg-gray-800 md:mt-0 md:flex-row md:space-x-8 md:border-0 md:p-0 md:dark:bg-gray-900">
             <li>
               <a
-                href="#"
+                href="/home"
                 className="block rounded px-3 py-2 text-white hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
                 aria-current="page"
               >
@@ -43,7 +51,7 @@ export default function NavBar() {
               <SignOutButton>
                 <button 
                   className="block rounded px-3 py-2 text-white hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
-                >
+                 onClick={handleLogout}>
                   Sign Out
                 </button>
               </SignOutButton>
