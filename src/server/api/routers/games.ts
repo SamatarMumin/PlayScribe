@@ -41,4 +41,8 @@ export const gamesRouter = createTRPCRouter({
   createGame: publicProcedure.input(gameSchema).mutation(({ input, ctx }) => {
     return ctx.prisma.gamesModel.create({ data: gameSchema.parse(input) });
   }),
+
+  deleteGame: publicProcedure.input(gameSchema).mutation(({ input, ctx }) => {
+    return ctx.prisma.gamesModel.delete({where:{id:input.id}});
+  }),
 });
