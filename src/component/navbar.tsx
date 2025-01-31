@@ -1,13 +1,11 @@
 import { SignedOut, SignOutButton, useClerk } from "@clerk/nextjs";
-import { log } from "console";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import router from "next/router";
 
 const handleLogout = () => {
-  try {
-    router.push("/");
-  } catch (e) {log("ERROR ERROR CAN'T NAVIGATE HOME")}
+    router.push("/").catch(() => console.error("ERROR ERROR CAN'T NAVIGATE HOME"));
+ 
 };
 
 export default function NavBar() {

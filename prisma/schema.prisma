@@ -21,7 +21,7 @@ model userModel {
 
 model gamesModel {
   id              String      @id @default(cuid())
-  authorID        String
+  authorID        String?
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
   title           String 

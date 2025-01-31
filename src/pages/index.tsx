@@ -11,7 +11,7 @@ export default function Home() {
 
   useEffect(() => {
     if (user.isSignedIn) {
-      router.push("/home");
+      router.push("/home").catch(() => console.error("ERROR CAN'T GO HOME"));
     }
   }, [user.isSignedIn, router]);
 
