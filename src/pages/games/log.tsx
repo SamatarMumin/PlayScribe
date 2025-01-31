@@ -8,7 +8,7 @@ export default function HomePage() {
   const { data, refetch } = api.games.getAll.useQuery();
   const deleteGamePost = api.games.deleteGame.useMutation();
 
-  const deleteGame = async (gameID: any) => {
+  const deleteGame = async (gameID: string) => {
     try {
         await deleteGamePost.mutateAsync({
             id: gameID,
@@ -44,7 +44,7 @@ export default function HomePage() {
         <div className="py-6">
           <button
             type="button"
-            onClick={() => deleteGame(gameData.game.id)}
+            onClick={() => void deleteGame(gameData.game.id)}
             className="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
           >
             Delete
