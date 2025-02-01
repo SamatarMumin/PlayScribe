@@ -5,7 +5,7 @@ import { ClerkProvider } from '@clerk/nextjs'
 
 
 const MyApp: AppType = ({ Component, pageProps }) => {
-  return (<ClerkProvider {...pageProps}>
+  return (<ClerkProvider {...pageProps} publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
   <Component {...pageProps} /> </ClerkProvider>)
 ;
 };
