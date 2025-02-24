@@ -30,23 +30,25 @@ export default function GamesPage() {
   const [reviewDesc, setReviewDesc] = useState("");
   const [title, setTitle] = useState("");
   const [starRating, setStarRating] = useState(0);
-
+  const {user} = useUser();
 
   // FIX ID BUG
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setId((Math.random() + 1).toString(36));
+   
     try {
       await createGamePost.mutateAsync({
         status,
-        id,
-        authorID: "Sam", // Need to take username from clerk and populate
+        id:(Math.random() + 1).toString(36),
+        authorID: user?.id || "no name idk", // Need to take username from clerk and populate
         createdAt: new Date(),
         updatedAt: new Date(),
         title,
         reviewDesc,
         starRating,
       });
+
+      console.log(id)
 
       // Reset form fields
       setStatus(false);

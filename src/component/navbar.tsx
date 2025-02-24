@@ -3,9 +3,9 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import router from "next/router";
 
-const handleLogout = () => {
-    router.push("/").catch(() => console.error("ERROR ERROR CAN'T NAVIGATE HOME"));
- 
+const handleLogout = async () => {
+  console.log('LOGGED OUT')
+    await router.push("/").catch(() => console.error("ERROR ERROR CAN'T NAVIGATE HOME"));
 };
 
 export default function NavBar() {

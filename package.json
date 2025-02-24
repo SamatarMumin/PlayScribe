@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^4.21.14",
-    "@prisma/client": "5.17.0",
+    "@prisma/client": "^6.4.1",
     "@t3-oss/env-nextjs": "^0.3.1",
     "@tanstack/react-query": "^4.29.7",
     "@trpc/client": "^10.26.0",
@@ -21,7 +21,7 @@
     "@trpc/server": "^10.26.0",
     "next": "^14.2.5",
     "node": "^22.6.0",
-    "prisma": "^5.17.0",
+    "prisma": "^6.4.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "supabase": "^1.187.10",

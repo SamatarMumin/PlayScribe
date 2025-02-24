@@ -27,29 +27,33 @@ export default function HomePage() {
 };
 
 
+
   const showGames = () => {
-    return data?.map((gameData) => (
+    const { user } = useUser();
+        return data?.map((gameData) => (
       <div
         key={gameData.game.id}
         className="max-w-sm mx-auto bg-white p-4 rounded-lg shadow-lg mb-6"
       >
         <div className="text-xl font-semibold mb-2">{gameData.game.title}</div>
         <div className="text-gray-700 mb-4">{gameData.game.reviewDesc}</div>
-        <div className="text-sm text-gray-500">Author ID: {gameData.game.authorID}</div>
         <div className="text-sm text-gray-500">Created: {new Date(gameData.game.createdAt).toLocaleDateString()}</div>
         <div className="text-sm text-gray-500">Updated: {new Date(gameData.game.updatedAt).toLocaleDateString()}</div>
         <div className="text-sm text-gray-500">Status: {gameData.game.status ? "Active" : "Inactive"}</div>
         <div className="text-sm text-gray-500">Rating: {gameData.game.starRating} / 5</div>
 
-        <div className="py-6">
-          <button
-            type="button"
-            onClick={() => void deleteGame(gameData.game.id)}
-            className="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-          >
-            Delete
-          </button>
-        </div>
+        {gameData.game.authorID == user?.id &&
+           <div className="py-6">
+           <button
+             type="button"
+             onClick={() => void deleteGame(gameData.game.id)}
+             className="text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+           >
+             Delete
+           </button>
+         </div>
+        }
+     
       </div>
     ));
   };
