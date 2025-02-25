@@ -1,8 +1,10 @@
 import { useUser } from "@clerk/nextjs";
+import { useEffect, useState } from "react";
 import NavBar from "~/component/navbar";
 import RecentActivity from "~/component/recentactivity";
 
 export default function homePage() {
+  
   // User Avatar Component
   const UserAvatar = () => {
     const { user } = useUser();
@@ -19,6 +21,31 @@ export default function homePage() {
     );
   };
   const { user } = useUser();
+  const [gameData, setGameData] = useState<any[]>([])
+
+  
+
+  useEffect(() => {
+    const fetchCriticalGames = async () => {
+      try {
+        const res = await fetch("/api/igdb");
+        if (!res.ok) throw new Error("Failed to fetch");
+
+        const data = await res.json();
+        console.log(data)
+        setGameData(data);
+      } catch (error) {
+        console.error("Error fetching games:", error);
+      }
+      
+    };
+
+    fetchCriticalGames();
+  }, []);
+  
+  console.log(gameData)
+
+
   return (
     <div className="h-screen bg-gray-900">
       <div className="">
@@ -43,7 +70,7 @@ export default function homePage() {
           <p className="text-2xl font-bold text-white">25</p>
         </div>
       </div>
-     <RecentActivity></RecentActivity>
+      <RecentActivity></RecentActivity>
     </div>
   );
 }
