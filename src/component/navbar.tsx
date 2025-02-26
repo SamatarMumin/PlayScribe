@@ -10,10 +10,10 @@ const handleLogout = async () => {
 
 export default function NavBar() {
   return (
-    <nav className="">
-      <div className="mx-auto flex flex-wrap items-center justify-between p-4">
-        <div className="hidden w-full md:block md:w-auto" id="navbar-default">
-          <ul className="">
+    <nav className="bg-gray-900 p-4 shadow-md">
+      <div className="mx-auto flex max-w-7xl items-center justify-between">
+        <div className="" >
+          <ul className="flex space-x-6 text-white">
             <li>
               <Link
                 href="/home"
@@ -50,7 +50,7 @@ export default function NavBar() {
             <li>
               <SignOutButton>
                 <button
-                  className="block rounded px-3 py-2 text-white hover:bg-gray-100 md:border-0 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
+                  className="block rounded px- py-2 text-white hover:bg-gray-100 md:border-0 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
                   onClick={handleLogout}
                 >
                   Sign Out
