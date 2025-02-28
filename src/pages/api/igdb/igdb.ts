@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function goodGamehandler(req: NextApiRequest, res: NextApiResponse) {
   try {
     const clientID = process.env.ClientID;
     const auth = process.env.Authorization;
@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         "Client-ID": clientID || "",
         Authorization: auth || "",
       },
-      body: "fields name, rating; where rating > 75;",
+      body: "fields name, rating; where rating > 75; limit 3;",
     });
 
     if (!response.ok) throw new Error("Failed to fetch IGDB data");
