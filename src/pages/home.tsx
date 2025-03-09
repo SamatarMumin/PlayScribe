@@ -21,7 +21,7 @@ export default function homePage() {
   };
   const { user } = useUser();
   const [gameData, setGameData] = useState<any[]>([]);
-  const [screenshots, setScreenshots] = useState<{ [key: string]: string }>({});
+  const [cover, setCover] = useState<{ [key: string]: string }>({});
 
   useEffect(() => {
     const fetchCriticalGames = async () => {
@@ -32,14 +32,14 @@ export default function homePage() {
         const data = await res.json();
         setGameData(data);
         data.forEach(async (game: any) => {
-          const screenshotRes = await fetch("/api/igdb/thumbnail", {
+          const coverRes = await fetch("/api/igdb/cover", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ id: game.id }),
           });
-          if (screenshotRes.ok) {
-            const screenshotData = await screenshotRes.json();
-            setScreenshots((prev) => ({
+          if (coverRes.ok) {
+            const screenshotData = await coverRes.json();
+            setCover((prev) => ({
               ...prev,
               [game.id]: screenshotData?.[0]?.url || "", 
             }));
@@ -85,7 +85,7 @@ export default function homePage() {
         {gameData.map((game) => (
           <div key={game.id} className="rounded-lg bg-gray-800 shadow-lg overflow-hidden">
             <img
-              src={screenshots[game.id] || "/placeholder.jpg"}
+              src={cover[game.id] || "/placeholder.jpg"}
               alt={game.name}
               className="h-40 w-full object-cover"
             />
