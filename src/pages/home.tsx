@@ -1,59 +1,12 @@
 import { useUser } from "@clerk/nextjs";
-import { useEffect, useState } from "react";
 import NavBar from "~/component/navbar";
 import RecentActivity from "~/component/recentactivity";
+import UserAvatar from "~/component/useravatar";
+import { useGameData } from "~/utils/hooks/useGameData";
 
 export default function homePage() {
-  // User Avatar Component
-  const UserAvatar = () => {
-    const { user } = useUser();
-    if (!user) return null;
-
-    return (
-      <div className="flex justify-center">
-        <img
-          src={user.profileImageUrl}
-          alt="Profile Image"
-          className="h-16 w-16 rounded-full object-cover shadow-md"
-        />
-      </div>
-    );
-  };
   const { user } = useUser();
-  const [gameData, setGameData] = useState<any[]>([]);
-  const [cover, setCover] = useState<{ [key: string]: string }>({});
-
-  useEffect(() => {
-    const fetchCriticalGames = async () => {
-      try {
-        const res = await fetch("/api/igdb/igdb");
-        if (!res.ok) throw new Error("Failed to fetch");
-
-        const data = await res.json();
-        setGameData(data);
-        data.forEach(async (game: any) => {
-          const coverRes = await fetch("/api/igdb/cover", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ id: game.id }),
-          });
-          if (coverRes.ok) {
-            const screenshotData = await coverRes.json();
-            setCover((prev) => ({
-              ...prev,
-              [game.id]: screenshotData?.[0]?.url || "", 
-            }));
-          }
-        });
-      } catch (error) {
-        console.error("Error fetching games:", error);
-      }
-    };
-
-    fetchCriticalGames();
-  }, []);
-
-  console.log(gameData);
+  const { gameData, cover, loading, error } = useGameData();
 
   return (
     <div className="h-screen bg-gray-900">
@@ -80,23 +33,38 @@ export default function homePage() {
         </div>
       </div>
       <div className="max-w-7xl mx-auto px-6">
-      <h2 className="text-2xl font-bold text-white mb-4">Critically Acclaimed Games</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {gameData.map((game) => (
-          <div key={game.id} className="rounded-lg bg-gray-800 shadow-lg overflow-hidden">
-            <img
-              src={cover[game.id] || "/placeholder.jpg"}
-              alt={game.name}
-              className="h-40 w-full object-cover"
-            />
-            <div className="p-4">
-              <h3 className="text-lg font-semibold text-white">{game.name}</h3>
-              <p className="text-yellow-400 font-semibold">⭐ {game.rating?.toFixed(1) || "N/A"}</p>
-            </div>
+        <h2 className="text-2xl font-bold text-white mb-4">Critically Acclaimed Games</h2>
+        
+        {loading && (
+          <div className="text-white text-center py-10">Loading games...</div>
+        )}
+        
+        {error && (
+          <div className="text-red-500 text-center py-10">Error: {error}</div>
+        )}
+        
+        {!loading && !error && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {gameData.map((game) => (
+              <div key={game.id} className="rounded-lg bg-gray-800 shadow-lg overflow-hidden">
+                <img
+                  loading="lazy"
+                  src={cover[game.id] || "/placeholder.jpg"}
+                  alt={game.name}
+                  className="h-56 w-full object-cover transition-transform hover:scale-105 duration-300"
+                  onError={(e) => {
+                    e.currentTarget.src = "https://via.placeholder.com/320x480?text=No+Image+Available";
+                  }}
+                />
+                <div className="p-4">
+                  <h3 className="text-lg font-semibold text-white">{game.name}</h3>
+                  <p className="text-yellow-400 font-semibold">⭐ {game.rating?.toFixed(1) || "N/A"}</p>
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
+        )}
       </div>
-    </div>
 
       <RecentActivity></RecentActivity>
     </div>

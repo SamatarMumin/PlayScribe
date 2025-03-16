@@ -2,22 +2,9 @@ import { api } from "~/utils/api";
 import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import NavBar from "~/component/navbar";
+import UserAvatar from "~/component/useravatar";
 
-// User Avatar Component
-const UserAvatar = () => {
-  const { user } = useUser();
-  if (!user) return null;
 
-  return (
-    <div className="flex justify-center">
-      <img
-        src={user.profileImageUrl}
-        alt="Profile Image"
-        className="h-16 w-16 rounded-full object-cover shadow-md"
-      />
-    </div>
-  );
-};
 
 // Main Component
 export default function GamesPage() {
